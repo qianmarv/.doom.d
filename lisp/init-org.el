@@ -166,14 +166,17 @@ same directory as the org-buffer and insert a link to this file."
       ;; Do Not Prompt To Resume An Active Clock
       (setq org-clock-persist-query-resume nil)
 
-      ;; Set Agenda Span To Daily By Default
+      ;; Set Agenda Span to Daily by Default
       (setq org-agenda-span 'day)
+
+      ;; Set Start Day as Today for Agenda View
+      (setq org-agenda-start-day nil)
 
       ;; Removes Clocked Tasks With 0:00 Duration
       (setq org-clock-out-remove-zero-time-clocks t)
 
       ;; Set Org Clock, Change default leve from 2 to 3
-      (setq org-clock-clocktable-default-properties '(:maxlevel 3 :scope file))
+      (setq org-clock-clocktable-default-properties '(:maxlevel 4 :scope file))
 
       ;; When Setting This Variable To nil,
       ;; 'a_b' Will Not Be Interpreted As A Subscript, But 'a_{b}' Will.
@@ -305,8 +308,8 @@ same directory as the org-buffer and insert a link to this file."
       ;; GPG key to use for encryption
       ;; Either the Key ID or set to nil to use symmetric encryption.
       ;; 
-      (setq org-crypt-key "AC88F93004D199BC")
-      ;; (setq org-crypt-key nil)
+      ;; (setq org-crypt-key "AC88F93004D199BC")
+       (setq org-crypt-key nil)
 
       (let* ((journal-book (my-org/make-notebook "Journal"))
              (inbox-book (my-org/make-notebook "Inbox"))
