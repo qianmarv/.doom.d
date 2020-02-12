@@ -2,9 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-;; (use-package htmlize
-;;   :ensure t)
-
 
 (setq org-directory "~/Org/")
 
@@ -45,16 +42,22 @@ same directory as the org-buffer and insert a link to this file."
        (image-name (format-time-string "%Y%m%d_%H%M%S.png"))
        (parent-directory (file-name-directory (buffer-file-name)))
        ;; subfolder (replace-regexp-in-string "\.org" "" (file-name-nondirectory (buffer-file-name)))
-       (relative-image-path  (concat image-folder "/" image-name))
+       ;;(relative-image-path  (concat image-folder "/" image-name))
        (full-image-directory (concat parent-directory image-folder))
        (full-image-path (concat full-image-directory "/" image-name)))
     (if (not (file-exists-p full-image-directory))
         (mkdir full-image-directory))
     ;;convert bitmap from clipboard to file
     ;;https://imagemagick.org/script/download.php
-    (cond ((when (my/is-win) (call-process "magick" nil nil nil  "clipboard:" full-image-path))
-           (when (my/is-wsl) (call-process "magick.exe" nil nil nil "clipboard:" full-image-path))))
-
+    (cond ((my/is-win) (call-process "magick" nil nil nil  "clipboard:" full-image-path))
+          ;; Should create a soft link from host directory to wsl directory
+          ((my/is-wsl) (let* ((host-rel-image-path (concat "Pictures/Magick/" image-name))
+                              (wsl-image-link-path (concat "~/" host-rel-image-path )))
+                         (progn
+                           (message host-rel-image-path)
+                           (call-process "magick.exe" nil nil nil "clipboard:" host-rel-image-path)
+                           (if (file-exists-p wsl-image-link-path)
+                               (rename-file wsl-image-link-path full-image-path))))))
     ;; insert into file if correctly taken
     (if (file-exists-p full-image-path)
         (progn
@@ -181,42 +184,42 @@ same directory as the org-buffer and insert a link to this file."
       (setq org-export-with-sub-superscripts nil)
 
       ;; Active Org-babel languages
-      (org-babel-do-load-languages
-       'org-babel-load-languages
-       '(;; other Babel languages
-         ;; Config plantuml
-         ;; http://archive.3zso.com/archives/plantuml-quickstart.html
-         (plantuml . t)
-         (ditaa . t)
-         (python . t)
-         (perl . t)
-         (ruby . t)
-         (R . t)
-         (shell . t)
-         (gnuplot . t)
-         (org . t)
-         (latex . t)
-         (java . t)
-         (emacs-lisp . t)
-         ;; (racket . t)
-         (calc . t)
-         (sql . t)
-         (dot . t)
-         ))
-      ;; Config plantuml path
-      (setq org-plantuml-jar-path
-            (expand-file-name "~/.emacs.d/plugins/plantuml.jar"))
+      ;; (org-babel-do-load-languages
+      ;;  'org-babel-load-languages
+      ;;  '(;; other Babel languages
+      ;;    ;; Config plantuml
+      ;;    ;; http://archive.3zso.com/archives/plantuml-quickstart.html
+      ;;    (plantuml . t)
+      ;;    (ditaa . t)
+      ;;    (python . t)
+      ;;    (perl . t)
+      ;;    (ruby . t)
+      ;;    (R . t)
+      ;;    (shell . t)
+      ;;    (gnuplot . t)
+      ;;    (org . t)
+      ;;    (latex . t)
+      ;;    (java . t)
+      ;;    (emacs-lisp . t)
+      ;;    ;; (racket . t)
+      ;;    (calc . t)
+      ;;    (sql . t)
+      ;;    (dot . t)
+      ;;    ))
+      ;; ;; Config plantuml path
+      ;; (setq org-plantuml-jar-path
+      ;;       (expand-file-name "~/.emacs.d/plugins/plantuml.jar"))
 
-      (setq plantuml-jar-path
-            (expand-file-name "~/.emacs.d/plugins/plantuml.jar"))
-      ;; Config ditaa path
-      (setq org-ditaa-jar-path
-            (expand-file-name "~/.emacs.d/plugins/ditaa0_9.jar")) ;
+      ;; (setq plantuml-jar-path
+      ;;       (expand-file-name "~/.emacs.d/plugins/plantuml.jar"))
+      ;; ;; Config ditaa path
+      ;; (setq org-ditaa-jar-path
+      ;;       (expand-file-name "~/.emacs.d/plugins/ditaa0_9.jar")) ;
 
       ;; Setup for GTD
       ;; Refer to http://www.i3s.unice.fr/~malapert/org/tips/emacs_orgmode.html
       (setq org-todo-keywords
-            (quote ((sequence "IDEA(i)" "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
+            (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
                     (sequence "PROJECT(p)" "|" "DONE(d!/!)" "CANCELLED(c@/!)")
                     (sequence "STARTED(s)" "WAITING(w@/!)" "DELEGATED(e!)" "HOLD(h)" "|" "CANCELLED(c@/!)")))
             org-todo-repeat-to-state "TODO")
@@ -296,8 +299,8 @@ same directory as the org-buffer and insert a link to this file."
       ;; Below solve error: signing failed: Inappropriate ioctl for device 
       ;; https://d.sb/2016/11/gpg-inappropriate-ioctl-for-device-errors
       ;; --------------------------------------------------------------------
-      (require 'epa-file)
-      (epa-file-enable)
+      ;; (require 'epa-file)
+      ;; (epa-file-enable)
       (setq epa-file-select-keys nil) 
       (require 'org-crypt)
       (org-crypt-use-before-save-magic)
@@ -305,8 +308,8 @@ same directory as the org-buffer and insert a link to this file."
       ;; GPG key to use for encryption
       ;; Either the Key ID or set to nil to use symmetric encryption.
       ;; 
-      (setq org-crypt-key "AC88F93004D199BC")
-      ;; (setq org-crypt-key nil)
+      ;; (setq org-crypt-key "AC88F93004D199BC") ;
+      (setq org-crypt-key nil)
 
       (let* ((journal-book (my-org/make-notebook "Journal"))
              (inbox-book (my-org/make-notebook "Inbox"))
@@ -341,7 +344,7 @@ same directory as the org-buffer and insert a link to this file."
       ;; TODO Group hook functions together
       (add-hook 'org-clock-in-hook '(lambda ()
                                       (org-todo "STARTED")
-                                      ;; (my-org/show-org-clock-in-header-line)
+                                      (my-org/show-org-clock-in-header-line)
                                       ))
       
       ;;TODO Only Change STATE when currently state is not in Finish State
@@ -352,14 +355,14 @@ same directory as the org-buffer and insert a link to this file."
                                          ;;   (org-priority 'remove))
                                          (when (string= curr-state "STARTED")
                                            (org-todo "NEXT")))
-                                       ;; (my-org/hide-org-clock-from-header-line)
+                                       (my-org/hide-org-clock-from-header-line)
                                        ))
       
-      ;; (add-hook 'org-clock-cancel-hook 'my-org/hide-org-clock-from-header-line)
+      (add-hook 'org-clock-cancel-hook 'my-org/hide-org-clock-from-header-line)
 
       ;; (after-load 'org-clock
-      ;; (define-key org-clock-mode-line-map [header-line mouse-2] 'org-clock-goto)
-      ;; (define-key org-clock-mode-line-map [header-line mouse-1] 'org-clock-menu)
+      ;;             (define-key org-clock-mode-line-map [header-line mouse-2] 'org-clock-goto)
+      ;;             (define-key org-clock-mode-line-map [header-line mouse-1] 'org-clock-menu)
       ;; )
 
 
@@ -494,7 +497,7 @@ same directory as the org-buffer and insert a link to this file."
 (define-key global-map (kbd "C-c l") 'org-store-link)
 
 ;; Configuration for super agenda
-(def-package! org-super-agenda
+(use-package! org-super-agenda
   :after org-agenda
   :init
   (setq org-super-agenda-groups
