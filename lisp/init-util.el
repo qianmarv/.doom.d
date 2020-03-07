@@ -17,5 +17,8 @@
 (defun my/is-linux()
   (string-equal system-type "gnu/linux"))
 
+(defun my/is-mac()
+  (string-equal system-type "darwin"))
+
 (provide 'init-util)
 ;;; init-util.el ends here

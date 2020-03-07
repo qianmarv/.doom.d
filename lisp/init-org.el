@@ -50,6 +50,7 @@ same directory as the org-buffer and insert a link to this file."
     ;;convert bitmap from clipboard to file
     ;;https://imagemagick.org/script/download.php
     (cond ((my/is-win) (call-process "magick" nil nil nil  "clipboard:" full-image-path))
+          ((my/is-mac) (call-process "screencapture" nil nil nil "-s" full-image-path))
           ;; Should create a soft link from host directory to wsl directory
           ((my/is-wsl) (let* ((host-rel-image-path (concat "Pictures/Magick/" image-name))
                               (wsl-image-link-path (concat "~/" host-rel-image-path )))
@@ -306,6 +307,10 @@ same directory as the org-buffer and insert a link to this file."
       ;; (epa-file-enable)
       (setq epa-file-select-keys nil) 
       (require 'org-crypt)
+
+      (when (my/is-mac)
+        (custom-set-variables '(epg-gpg-program  "gpg")))
+
       (org-crypt-use-before-save-magic)
       (setq org-tags-exclude-from-inheritance (quote ("crypt")))
       ;; GPG key to use for encryption
