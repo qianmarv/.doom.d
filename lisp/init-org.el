@@ -309,7 +309,7 @@ same directory as the org-buffer and insert a link to this file."
       (require 'org-crypt)
 
       (when (my/is-mac)
-        (custom-set-variables '(epg-gpg-program  "gpg")))
+        (custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg1")))
 
       (org-crypt-use-before-save-magic)
       (setq org-tags-exclude-from-inheritance (quote ("crypt")))
