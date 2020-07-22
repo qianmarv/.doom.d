@@ -55,6 +55,8 @@
 ;; `load-theme' function. These are the defaults.
 (setq doom-theme 'doom-one)
 
+;;(setq evil-default-state 'emacs)
+
 ;;; :editor evil
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
@@ -85,3 +87,27 @@
 
 ;; Org related configurations
 (require 'init-org)
+
+;; Programming Related Settings
+;;
+;; Set default scheme implementation program
+;; (setq scheme-program-name "racket")
+;; (setq geiser-scheme-implementation "racke")
+(setq geiser-active-implementations '(racket))
+
+;; Somehow with DOOM, default info directory was not correct
+(setq Info-directory-list '("/usr/local/share/info"))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+   (quote
+    ("~/Org/GTD/Work.org" "~/Org/GTD/Projects.org" "~/Org/GTD/Habit.org" "~/Org/GTD/Event.org" "~/Org/GTD/Agenda.org" "/home/qianmarv/Org/Principle.org"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

@@ -30,3 +30,5 @@
 
 
 (package! org-super-agenda)
+
+;;(package! geiser)
