@@ -5,6 +5,25 @@
 
 (setq org-directory "~/Org/")
 
+;; TODO should be replaced be auto expand
+(defun my-org/insert-src-block (src-code-type)
+  "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
+  (interactive
+   (let ((src-code-types
+          '("abap" "emacs-lisp" "python" "C" "sh" "java" "js" "clojure" "C++" "css"
+            "calc" "asymptote" "dot" "gnuplot" "ledger" "lilypond" "mscgen"
+            "octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
+            "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby" "racket"
+            "scheme" "sqlite")))
+     (list (ido-completing-read "Source code type: " src-code-types))))
+  (progn
+    (newline-and-indent)
+    (insert (format "#+BEGIN_SRC %s\n" src-code-type))
+    (newline-and-indent)
+    (insert "#+END_SRC\n")
+    (previous-line 2)
+    (org-edit-src-code)))
+
 ;;; Show the clocked-in task - if any - in the header line
 (defun my-org/show-org-clock-in-header-line ()
   (setq-default header-line-format '((" " org-mode-line-string " "))))
@@ -352,9 +371,12 @@ same directory as the org-buffer and insert a link to this file."
 
       ;; TODO Group hook functions together
       (add-hook 'org-clock-in-hook '(lambda ()
-                                      (org-todo "STARTED")
-                                      (my-org/show-org-clock-in-header-line)
-                                      ))
+                                      (let ((curr-state (org-get-todo-state)))
+                                        ;; (when (string= curr-state "DONE")
+                                        ;;   (org-priority 'remove))
+                                        (when (not (string= curr-state "DONE"))
+                                          (org-todo "STARTED"))
+                                        (my-org/show-org-clock-in-header-line))))
       
       ;;TODO Only Change STATE when currently state is not in Finish State
       ;; (org-get-todo-state)
@@ -366,14 +388,11 @@ same directory as the org-buffer and insert a link to this file."
                                            (org-todo "TODO")))
                                        (my-org/hide-org-clock-from-header-line)
                                        ))
-      
       (add-hook 'org-clock-cancel-hook 'my-org/hide-org-clock-from-header-line)
 
-      ;; (after-load 'org-clock
-      ;;             (define-key org-clock-mode-line-map [header-line mouse-2] 'org-clock-goto)
-      ;;             (define-key org-clock-mode-line-map [header-line mouse-1] 'org-clock-menu)
-      ;; )
-
+       (after! 'org-clock
+                   (define-key org-clock-mode-line-map [header-line mouse-2] 'org-clock-goto)
+                   (define-key org-clock-mode-line-map [header-line mouse-1] 'org-clock-menu))
 
       ;; (setq org-agenda-files  `(,my-org/gtd-path))
       (setq org-agenda-compact-blocks nil)
