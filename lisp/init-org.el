@@ -223,13 +223,13 @@ same directory as the org-buffer and insert a link to this file."
       ;; Setup for GTD
       ;; Refer to http://www.i3s.unice.fr/~malapert/org/tips/emacs_orgmode.html
       (setq org-todo-keywords
-            (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
-                    (sequence "PROJECT(p)" "|" "DONE(d!/!)" "CANCELLED(c@/!)")
+            (quote ((sequence "PLAN(p)" "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
+                    (sequence "PROJECT" "|" "DONE(d!/!)" "CANCELLED(c@/!)")
                     (sequence "STARTED(s)" "WAITING(w@/!)" "DELEGATED(e!)" "HOLD(h)" "|" "CANCELLED(c@/!)")))
             org-todo-repeat-to-state "TODO")
 
       (setq org-todo-keyword-faces
-            '(("IDEA" . (:foreground "GoldenRod" :weight bold))
+            '(("PLAN" . (:foreground "GoldenRod" :weight bold))
               ("NEXT" . (:foreground "IndianRed1" :weight bold))   
               ("STARTED" . (:foreground "OrangeRed" :weight bold))
               ("WAITING" . (:foreground "coral" :weight bold)) 
@@ -363,7 +363,7 @@ same directory as the org-buffer and insert a link to this file."
                                          ;; (when (string= curr-state "DONE")
                                          ;;   (org-priority 'remove))
                                          (when (string= curr-state "STARTED")
-                                           (org-todo "NEXT")))
+                                           (org-todo "TODO")))
                                        (my-org/hide-org-clock-from-header-line)
                                        ))
       
@@ -512,14 +512,14 @@ same directory as the org-buffer and insert a link to this file."
   (setq org-super-agenda-groups
         '((:name "Log "
                  :log t)
-          (:name "Schedule "
-                 :time-grid t)
-          (:name "Current Focus "
-                 :todo "STARTED")
-          (:name "Next"
-                 :todo "NEXT")
-          (:name "Scheduled Today "
+          ;; (:name "Schedule"
+          ;;        :time-grid t)
+          ;; (:name "Current Focus "
+          ;;        :todo "STARTED")
+          (:name "Scheduled Today"
                  :scheduled today)
+          (:name "Planned This Week"
+                 :todo "PLAN")
           (:name "Habits "
                  :habit t)
           (:name "Due today "
