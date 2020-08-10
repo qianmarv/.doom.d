@@ -207,29 +207,30 @@ same directory as the org-buffer and insert a link to this file."
       (setq org-export-with-sub-superscripts nil)
 
       ;; Active Org-babel languages
-      ;; (org-babel-do-load-languages
-      ;;  'org-babel-load-languages
-      ;;  '(;; other Babel languages
-      ;;    ;; Config plantuml
-      ;;    ;; http://archive.3zso.com/archives/plantuml-quickstart.html
-      ;;    (plantuml . t)
-      ;;    (ditaa . t)
-      ;;    (python . t)
-      ;;    (perl . t)
-      ;;    (ruby . t)
-      ;;    (R . t)
-      ;;    (shell . t)
-      ;;    (gnuplot . t)
-      ;;    (org . t)
-      ;;    (latex . t)
-      ;;    (java . t)
-      ;;    (emacs-lisp . t)
-      ;;    ;; (racket . t)
-      ;;    (calc . t)
-      ;;    (sql . t)
-      ;;    (dot . t)
-      ;;    ))
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '(;; other Babel languages
+         ;; Config plantuml
+         ;; http://archive.3zso.com/archives/plantuml-quickstart.html
+         (plantuml . t)
+         (ditaa . t)
+         (python . t)
+         (perl . t)
+         (ruby . t)
+         (R . t)
+         (shell . t)
+         (gnuplot . t)
+         (org . t)
+         (latex . t)
+         (java . t)
+         (emacs-lisp . t)
+         ;; (racket . t)
+         (calc . t)
+         (sql . t)
+         (dot . t)
+         ))
       ;; ;; Config plantuml path
+      (setq plantuml-default-exec-mode 'jar)
       ;; (setq org-plantuml-jar-path
       ;;       (expand-file-name "~/.emacs.d/plugins/plantuml.jar"))
 
@@ -531,8 +532,8 @@ same directory as the org-buffer and insert a link to this file."
   (setq org-super-agenda-groups
         '((:name "Log "
                  :log t)
-          ;; (:name "Schedule"
-          ;;        :time-grid t)
+          (:name "Schedule"
+                 :time-grid t)
           ;; (:name "Current Focus "
           ;;        :todo "STARTED")
           (:name "Scheduled Today"
