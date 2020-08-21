@@ -243,14 +243,13 @@ same directory as the org-buffer and insert a link to this file."
       ;; Setup for GTD
       ;; Refer to http://www.i3s.unice.fr/~malapert/org/tips/emacs_orgmode.html
       (setq org-todo-keywords
-            (quote ((sequence "PLAN(p)" "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
+            (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
                     (sequence "PROJECT" "|" "DONE(d!/!)" "CANCELLED(c@/!)")
                     (sequence "STARTED(s)" "WAITING(w@/!)" "DELEGATED(e!)" "HOLD(h)" "|" "CANCELLED(c@/!)")))
             org-todo-repeat-to-state "TODO")
 
       (setq org-todo-keyword-faces
-            '(("PLAN" . (:foreground "GoldenRod" :weight bold))
-              ("NEXT" . (:foreground "IndianRed1" :weight bold))   
+            '(("NEXT" . (:foreground "IndianRed1" :weight bold))
               ("STARTED" . (:foreground "OrangeRed" :weight bold))
               ("WAITING" . (:foreground "coral" :weight bold)) 
               ("CANCELED" . (:foreground "LimeGreen" :weight bold))
@@ -538,8 +537,6 @@ same directory as the org-buffer and insert a link to this file."
           ;;        :todo "STARTED")
           (:name "Scheduled Today"
                  :scheduled today)
-          (:name "Planned This Week"
-                 :todo "PLAN")
           (:name "Habits "
                  :habit t)
           (:name "Due today "
