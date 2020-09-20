@@ -50,41 +50,44 @@
 ;; Different Apps to Be Called Under Different OS Platform
 ;;   Win: Powershell Tool https://github.com/Windos/BurntToast
 
-(defun my-org/insert-screenshot ()
-  "Take a screenshot into a time stamped unique-named file in the
-same directory as the org-buffer and insert a link to this file."
-  (interactive)
-  ;; (org-display-inline-images)
-  (let*
-      ;; foldername (replace-regexp-in-string "\.org" "" (buffer-file-name))
-      ((image-folder "IMG")
-       (image-name (format-time-string "%Y%m%d_%H%M%S.png"))
-       (parent-directory (file-name-directory (buffer-file-name)))
-       ;; subfolder (replace-regexp-in-string "\.org" "" (file-name-nondirectory (buffer-file-name)))
-       ;;(relative-image-path  (concat image-folder "/" image-name))
-       (full-image-directory (concat parent-directory image-folder))
-       (full-image-path (concat full-image-directory "/" image-name)))
-    (if (not (file-exists-p full-image-directory))
-        (mkdir full-image-directory))
-    ;;convert bitmap from clipboard to file
-    ;;https://imagemagick.org/script/download.php
-    (cond ((my/is-win) (call-process "magick" nil nil nil  "clipboard:" full-image-path))
-          ((my/is-mac) (call-process "screencapture" nil nil nil "-s" full-image-path))
-          ;; Should create a soft link from host directory to wsl directory
-          ((my/is-wsl) (let* ((host-rel-image-path (concat "Pictures/Magick/" image-name))
-                              (wsl-image-link-path (concat "~/" host-rel-image-path )))
-                         (progn
-                           (message host-rel-image-path)
-                           (call-process "magick.exe" nil nil nil "clipboard:" host-rel-image-path)
-                           (if (file-exists-p wsl-image-link-path)
-                               (rename-file wsl-image-link-path full-image-path))))))
-    ;; insert into file if correctly taken
-    (if (file-exists-p full-image-path)
-        (progn
-          (insert (message "#+CAPTION: %s" (read-from-minibuffer "Caption: ")))
-          (indent-new-comment-line)
-          (insert (message "[[./%s/%s]]" image-folder image-name)))
-      (message "Image processing failed for %s" full-image-path))))
+
+;; org-download already sufficient
+(setq-default org-download-image-dir "./IMG")
+;; (defun my-org/insert-screenshot ()
+;;   "Take a screenshot into a time stamped unique-named file in the
+;; same directory as the org-buffer and insert a link to this file."
+;;   (interactive)
+;;   ;; (org-display-inline-images)
+;;   (let*
+;;       ;; foldername (replace-regexp-in-string "\.org" "" (buffer-file-name))
+;;       ((image-folder "IMG")
+;;        (image-name (format-time-string "%Y%m%d_%H%M%S.png"))
+;;        (parent-directory (file-name-directory (buffer-file-name)))
+;;        ;; subfolder (replace-regexp-in-string "\.org" "" (file-name-nondirectory (buffer-file-name)))
+;;        ;;(relative-image-path  (concat image-folder "/" image-name))
+;;        (full-image-directory (concat parent-directory image-folder))
+;;        (full-image-path (concat full-image-directory "/" image-name)))
+;;     (if (not (file-exists-p full-image-directory))
+;;         (mkdir full-image-directory))
+;;     ;;convert bitmap from clipboard to file
+;;     ;;https://imagemagick.org/script/download.php
+;;     (cond ((my/is-win) (call-process "magick" nil nil nil  "clipboard:" full-image-path))
+;;           ((my/is-mac) (call-process "screencapture" nil nil nil "-s" full-image-path))
+;;           ;; Should create a soft link from host directory to wsl directory
+;;           ((my/is-wsl) (let* ((host-rel-image-path (concat "Pictures/Magick/" image-name))
+;;                               (wsl-image-link-path (concat "~/" host-rel-image-path )))
+;;                          (progn
+;;                            (message host-rel-image-path)
+;;                            (call-process "magick.exe" nil nil nil "clipboard:" host-rel-image-path)
+;;                            (if (file-exists-p wsl-image-link-path)
+;;                                (rename-file wsl-image-link-path full-image-path))))))
+;;     ;; insert into file if correctly taken
+;;     (if (file-exists-p full-image-path)
+;;         (progn
+;;           (insert (message "#+CAPTION: %s" (read-from-minibuffer "Caption: ")))
+;;           (indent-new-comment-line)
+;;           (insert (message "[[./%s/%s]]" image-folder image-name)))
+;;       (message "Image processing failed for %s" full-image-path))))
 
 (defun my-org/show-alarm (min-to-app new-time message)
   (cond 
@@ -328,7 +331,7 @@ same directory as the org-buffer and insert a link to this file."
       (require 'org-crypt)
 
       (when (my/is-mac)
-        (custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg1")))
+        (custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg")))
 
       (org-crypt-use-before-save-magic)
       (setq org-tags-exclude-from-inheritance (quote ("crypt")))
