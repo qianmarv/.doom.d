@@ -332,6 +332,8 @@
 
       (when (my/is-mac)
         (custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg")))
+      (when (my/is-linux)
+        (custom-set-variables '(epg-gpg-program  "/usr/bin/gpg")))
 
       (org-crypt-use-before-save-magic)
       (setq org-tags-exclude-from-inheritance (quote ("crypt")))
