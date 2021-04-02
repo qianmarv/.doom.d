@@ -334,6 +334,8 @@
         (custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg")))
       (when (my/is-linux)
         (custom-set-variables '(epg-gpg-program  "/usr/bin/gpg")))
+      (when (my/is-win)
+        (custom-set-variables '(epg-gpg-program "C:/Program Files (x86)/GnuPG/bin/gpg")))
 
       (org-crypt-use-before-save-magic)
       (setq org-tags-exclude-from-inheritance (quote ("crypt")))
