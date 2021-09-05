@@ -53,8 +53,8 @@
 
 ;; Set Chinese Font
 ;; https://emacs.stackexchange.com/questions/63850/doom-emacs-how-to-align-chinese-characters-in-org-tables
-(setq doom-font (font-spec :family "Source Code Pro" :size 24 :weight 'normal :width 'normal)
-      doom-big-font (font-spec :family "Source Code Pro" :size 36))
+;;(setq doom-font (font-spec :family "Source Code Pro" :size 24 :weight 'normal :width 'normal)
+;;      doom-big-font (font-spec :family "Source Code Pro" :size 36))
 
 (dolist (charset '(kana han cjk-misc bopomofo))
   (set-fontset-font (frame-parameter nil 'font)
@@ -114,7 +114,7 @@
 ;; (setq leetcode-directory "~/leetcode")
 
 ;; Somehow with DOOM, default info directory was not correct
-(setq Info-directory-list '("/usr/local/share/info"))
+;;(setq Info-directory-list '("/usr/local/share/info"))
 ;; (custom-set-variables
 ;;  ;; custom-set-variables was added by Custom.
 ;;  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -91,12 +91,12 @@
 
 (defun my-org/show-alarm (min-to-app new-time message)
   (cond 
-   ((my/is-wsl) (call-process "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"
-                                  nil
-                                  nil
-                                  nil
-                                  (format " New-BurntToastNotification -Text \"%s\" -Sound 'Alarm2' -SnoozeAndDismiss" message)))       
    ((my/is-win) (call-process "powershell"
+                                  nil
+                                  nil
+                                  nil
+                                  (format " New-BurntToastNotification -Text \"%s\" -Sound 'Alarm2' -SnoozeAndDismiss" message)))
+   ((my/is-wsl) (call-process "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"
                                   nil
                                   nil
                                   nil
@@ -356,6 +356,8 @@
               `(
                 ("j" "Journals, Morning Write" entry
                  (file+olp+datetree ,journal-book) "* Morning Write\n%U\n%?" :tree-type week)
+                ("d" "Daily Review"  entry
+                 (file+olp+datetree ,journal-book) (file ,(my-org/expand-template "daily_review")) :tree-type week :time-prompt t)
                 ("b" "Break / Interrupt" entry
                  (file+headline ,capture-book "Other Interrupts") "* DONE %?\n%U %i\n" :clock-in t :clock-resume t)
                 ("c" "Collect/Capture")
@@ -368,8 +370,6 @@
                 ("cm" "Movies want Watch" entry
                  (file+headline ,capture-book "Movies") (file ,(my-org/expand-template "movie")))
                 ("r" "Review")
-                ("rd" "Daily Review"  entry
-                 (file+olp+datetree ,journal-book) (file ,(my-org/expand-template "daily_review")) :tree-type week :time-prompt t)
                 ("rw" "Weekly Review"  entry
                  (file+olp+datetree ,journal-book) (file ,(my-org/expand-template "weekly_review")) :tree-type week :time-prompt t)
                 ("rm" "Monthly Review"  entry
@@ -528,7 +528,7 @@
   (my-org/post-init-org))
 
 (define-key global-map (kbd "C-c a") 'org-agenda)
-(define-key global-map (kbd "C-c c") 'org-capture)
+(define-key global-map (kbd "C-c j") 'org-capture)
 (define-key global-map (kbd "C-c l") 'org-store-link)
 
 ;; Configuration for super agenda
@@ -557,7 +557,7 @@
   :config
   (org-super-agenda-mode))
 
-(setq deft-directory "~/Org/roam")
+;;(setq deft-directory "~/Org/roam")
 
 (provide 'init-org)
 ;;; init-org.el ends here
