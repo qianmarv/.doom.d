@@ -56,10 +56,9 @@
 (setq doom-font (font-spec :family "Source Code Pro" :size 24 :weight 'normal :width 'normal)
       doom-big-font (font-spec :family "Source Code Pro" :size 36))
 
-(dolist (charset '(kana han cjk-misc bopomofo))
-  (set-fontset-font (frame-parameter nil 'font)
-                    ;; charset (font-spec :family "Hiragino Sans GB" :size 36)))
-                    charset (font-spec :family "Microsoft YaHei" :size 36)))
+;; (dolist (charset '(kana han cjk-misc bopomofo))
+;;   (set-fontset-font (frame-parameter nil 'font)
+;;                     charset (font-spec :family "Microsoft YaHei" :size 36)))
 
 (doom-big-font-mode)
 

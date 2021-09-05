@@ -47,6 +47,9 @@
   (let ((org-refile-target-verify-function))
     (org-agenda-refile goto rfloc no-update)))
 
+;; Incompatiable change after Orgmode upgrade to v9.1
+;; https://stackoverflow.com/questions/22720526/set-clock-table-duration-format-for-emacs-org-mode
+(setq org-duration-format (quote h:mm))
 ;; Different Apps to Be Called Under Different OS Platform
 ;;   Win: Powershell Tool https://github.com/Windos/BurntToast
 
