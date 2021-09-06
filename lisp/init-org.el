@@ -5,25 +5,6 @@
 
 (setq org-directory "~/Org/")
 
-;; TODO should be replaced be auto expand
-(defun my-org/insert-src-block (src-code-type)
-  "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
-  (interactive
-   (let ((src-code-types
-          '("abap" "emacs-lisp" "python" "C" "sh" "java" "js" "clojure" "C++" "css"
-            "calc" "asymptote" "dot" "gnuplot" "ledger" "lilypond" "mscgen"
-            "octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
-            "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby" "racket"
-            "scheme" "sqlite")))
-     (list (ido-completing-read "Source code type: " src-code-types))))
-  (progn
-    (newline-and-indent)
-    (insert (format "#+BEGIN_SRC %s\n" src-code-type))
-    (newline-and-indent)
-    (insert "#+END_SRC\n")
-    (previous-line 2)
-    (org-edit-src-code)))
-
 ;;; Show the clocked-in task - if any - in the header line
 (defun my-org/show-org-clock-in-header-line ()
   (setq-default header-line-format '((" " org-mode-line-string " "))))
@@ -56,41 +37,6 @@
 
 ;; org-download already sufficient
 (setq-default org-download-image-dir "./IMG")
-;; (defun my-org/insert-screenshot ()
-;;   "Take a screenshot into a time stamped unique-named file in the
-;; same directory as the org-buffer and insert a link to this file."
-;;   (interactive)
-;;   ;; (org-display-inline-images)
-;;   (let*
-;;       ;; foldername (replace-regexp-in-string "\.org" "" (buffer-file-name))
-;;       ((image-folder "IMG")
-;;        (image-name (format-time-string "%Y%m%d_%H%M%S.png"))
-;;        (parent-directory (file-name-directory (buffer-file-name)))
-;;        ;; subfolder (replace-regexp-in-string "\.org" "" (file-name-nondirectory (buffer-file-name)))
-;;        ;;(relative-image-path  (concat image-folder "/" image-name))
-;;        (full-image-directory (concat parent-directory image-folder))
-;;        (full-image-path (concat full-image-directory "/" image-name)))
-;;     (if (not (file-exists-p full-image-directory))
-;;         (mkdir full-image-directory))
-;;     ;;convert bitmap from clipboard to file
-;;     ;;https://imagemagick.org/script/download.php
-;;     (cond ((my/is-win) (call-process "magick" nil nil nil  "clipboard:" full-image-path))
-;;           ((my/is-mac) (call-process "screencapture" nil nil nil "-s" full-image-path))
-;;           ;; Should create a soft link from host directory to wsl directory
-;;           ((my/is-wsl) (let* ((host-rel-image-path (concat "Pictures/Magick/" image-name))
-;;                               (wsl-image-link-path (concat "~/" host-rel-image-path )))
-;;                          (progn
-;;                            (message host-rel-image-path)
-;;                            (call-process "magick.exe" nil nil nil "clipboard:" host-rel-image-path)
-;;                            (if (file-exists-p wsl-image-link-path)
-;;                                (rename-file wsl-image-link-path full-image-path))))))
-;;     ;; insert into file if correctly taken
-;;     (if (file-exists-p full-image-path)
-;;         (progn
-;;           (insert (message "#+CAPTION: %s" (read-from-minibuffer "Caption: ")))
-;;           (indent-new-comment-line)
-;;           (insert (message "[[./%s/%s]]" image-folder image-name)))
-;;       (message "Image processing failed for %s" full-image-path))))
 
 (defun my-org/show-alarm (min-to-app new-time message)
   (cond 
@@ -444,76 +390,76 @@
       ;;             (my-org/show-alarm 0 0 "Pomodoro Killed - One does not simply kill a pomodoro!")))
       ;; Setup Publish
       (require 'ox-publish)
-      (setq org-publish-project-alist
-            `(
-              ;; Project Settings for Blog 
-              ;; ("Blog-Note"
-              ;;  :base-directory "~/Org/Blog/"
-              ;;  :recursive t
-              ;;  :publishing-directory "~/Git/blog/source/_posts/"
-              ;;  :publishing-function org-md-publish-to-md)
-              ;; ("Blog-Static"
-              ;;  :base-directory "~/Org/Blog/"
-              ;;  :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-              ;;  :publishing-directory "~/Git/blog/source/_posts/"
-              ;;  :recursive t
-              ;;  :publishing-function org-publish-attachment)
-              ;; ("Blog" :components ("Blog-Note" "Blog-Static"))
-              
-              ;; Project Setting for Project - Total Validation
-              ("TotalValidation-html"
-               :base-directory "~/Org/Project/CCONSSHA02/TotalValidation"
-               :recursive t
-               :with-properties t
-               :publishing-directory "~/Git/TotalValidation/docs"
-               :publishing-function org-html-publish-to-html)
-              ("TotalValidation-Static"
-               :base-directory "~/Org/Project/CCONSSHA02/TotalValidation/IMG"
-               :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-               :publishing-directory "~/Git/TotalValidation/docs/IMG"
-               :recursive t
-               :publishing-function org-publish-attachment)
-              ("TotalValidation-Org"
-               :base-directory "~/Org/Project/CCONSSHA02/TotalValidation/"
-               :base-extension "org"
-               :publishing-directory "~/Git/TotalValidation/source/"
-               :recursive t
-               :publishing-function org-org-publish-to-org)              
-              ("TotalValidation" :components ("TotalValidation-html" "TotalValidation-Static" "TotalValidation-Org"))
-              ;; Project Settings for Project - Inter Company
-              ("InterCompanyHub-html"
-               :base-directory "~/Org/Project/CCONSSHA02/InterCompanyHub"
-               :recursive t
-               :with-properties t
-               :publishing-directory "~/Git/InterCompanyHub/docs"
-               :publishing-function org-html-publish-to-html)
-              ("InterCompanyHub-Static"
-               :base-directory "~/Org/Project/CCONSSHA02/InterCompanyHub/IMG"
-               :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-               :publishing-directory "~/Git/InterCompanyHub/docs/IMG"
-               :recursive t
-               :publishing-function org-publish-attachment)
-              ("InterCompanyHub-Org"
-               :base-directory "~/Org/Project/CCONSSHA02/InterCompanyHub/"
-               :base-extension "org"
-               :publishing-directory "~/Git/InterCompanyHub/source/"
-               :recursive t
-               :publishing-function org-org-publish-to-org)              
-              ("InterCompanyHub" :components ("InterCompanyHub-html" "InterCompanyHub-Static" "InterCompanyHub-Org"))
-              ("2002CE-SUBVAL-Org"
-               :base-directory "~/Org/Project/CCONSSHA02/2002CE_SUBVAL"
-               :recursive t
-               :with-properties t
-               :publishing-directory "~/Git/2002CE_SubVal"
-               :publishing-function org-html-publish-to-html)
-              ("2002CE-SUBVAL-Static"
-               :base-directory "~/Org/Project/CCONSSHA02/2002CE_SUBVAL/IMG"
-               :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-               :publishing-directory "~/Git/2002CE_SubVal/IMG"
-               :recursive t
-               :publishing-function org-publish-attachment)
-              ("2002CE-SUBVAL" :components ("2002CE-SUBVAL-Org" "2002CE-SUBVAL-Static"))              
-              ))
+      ;; (setq org-publish-project-alist
+      ;;       `(
+      ;;         ;; Project Settings for Blog
+      ;;         ;; ("Blog-Note"
+      ;;         ;;  :base-directory "~/Org/Blog/"
+      ;;         ;;  :recursive t
+      ;;         ;;  :publishing-directory "~/Git/blog/source/_posts/"
+      ;;         ;;  :publishing-function org-md-publish-to-md)
+      ;;         ;; ("Blog-Static"
+      ;;         ;;  :base-directory "~/Org/Blog/"
+      ;;         ;;  :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+      ;;         ;;  :publishing-directory "~/Git/blog/source/_posts/"
+      ;;         ;;  :recursive t
+      ;;         ;;  :publishing-function org-publish-attachment)
+      ;;         ;; ("Blog" :components ("Blog-Note" "Blog-Static"))
+
+      ;;         ;; Project Setting for Project - Total Validation
+      ;;         ("TotalValidation-html"
+      ;;          :base-directory "~/Org/Project/CCONSSHA02/TotalValidation"
+      ;;          :recursive t
+      ;;          :with-properties t
+      ;;          :publishing-directory "~/Git/TotalValidation/docs"
+      ;;          :publishing-function org-html-publish-to-html)
+      ;;         ("TotalValidation-Static"
+      ;;          :base-directory "~/Org/Project/CCONSSHA02/TotalValidation/IMG"
+      ;;          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+      ;;          :publishing-directory "~/Git/TotalValidation/docs/IMG"
+      ;;          :recursive t
+      ;;          :publishing-function org-publish-attachment)
+      ;;         ("TotalValidation-Org"
+      ;;          :base-directory "~/Org/Project/CCONSSHA02/TotalValidation/"
+      ;;          :base-extension "org"
+      ;;          :publishing-directory "~/Git/TotalValidation/source/"
+      ;;          :recursive t
+      ;;          :publishing-function org-org-publish-to-org)
+      ;;         ("TotalValidation" :components ("TotalValidation-html" "TotalValidation-Static" "TotalValidation-Org"))
+      ;;         ;; Project Settings for Project - Inter Company
+      ;;         ("InterCompanyHub-html"
+      ;;          :base-directory "~/Org/Project/CCONSSHA02/InterCompanyHub"
+      ;;          :recursive t
+      ;;          :with-properties t
+      ;;          :publishing-directory "~/Git/InterCompanyHub/docs"
+      ;;          :publishing-function org-html-publish-to-html)
+      ;;         ("InterCompanyHub-Static"
+      ;;          :base-directory "~/Org/Project/CCONSSHA02/InterCompanyHub/IMG"
+      ;;          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+      ;;          :publishing-directory "~/Git/InterCompanyHub/docs/IMG"
+      ;;          :recursive t
+      ;;          :publishing-function org-publish-attachment)
+      ;;         ("InterCompanyHub-Org"
+      ;;          :base-directory "~/Org/Project/CCONSSHA02/InterCompanyHub/"
+      ;;          :base-extension "org"
+      ;;          :publishing-directory "~/Git/InterCompanyHub/source/"
+      ;;          :recursive t
+      ;;          :publishing-function org-org-publish-to-org)
+      ;;         ("InterCompanyHub" :components ("InterCompanyHub-html" "InterCompanyHub-Static" "InterCompanyHub-Org"))
+      ;;         ("2002CE-SUBVAL-Org"
+      ;;          :base-directory "~/Org/Project/CCONSSHA02/2002CE_SUBVAL"
+      ;;          :recursive t
+      ;;          :with-properties t
+      ;;          :publishing-directory "~/Git/2002CE_SubVal"
+      ;;          :publishing-function org-html-publish-to-html)
+      ;;         ("2002CE-SUBVAL-Static"
+      ;;          :base-directory "~/Org/Project/CCONSSHA02/2002CE_SUBVAL/IMG"
+      ;;          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+      ;;          :publishing-directory "~/Git/2002CE_SubVal/IMG"
+      ;;          :recursive t
+      ;;          :publishing-function org-publish-attachment)
+      ;;         ("2002CE-SUBVAL" :components ("2002CE-SUBVAL-Org" "2002CE-SUBVAL-Static"))
+      ;;         ))
 
       ;; Publish with
       ;; (org-publish-current-project) ;; While having a file in your project open
