@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(epg-gpg-program "/usr/bin/gpg")
  '(org-agenda-files
-   '("~/Org/GTD/Work.org" "~/Org/GTD/Projects.org" "~/Org/GTD/Habit.org" "~/Org/GTD/Event.org" "~/Org/GTD/Agenda.org"))
+   '("~/Org/GTD/Work.org" "~/Org/GTD/Projects.org" "~/Org/GTD/Event.org" "~/Org/GTD/Agenda.org"))
  '(org-download-image-dir "./IMG" t)
  '(safe-local-variable-values '((org-download-image-dir . "./IMG")))
  '(send-mail-function 'mailclient-send-it))

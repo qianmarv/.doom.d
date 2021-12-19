@@ -61,7 +61,6 @@
       (set-fontset-font (frame-parameter nil 'font)
                         charset (font-spec :family "Microsoft YaHei" :size 36)))))
 
-
 (doom-big-font-mode)
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -101,6 +100,8 @@
 
 ;; Org related configurations
 (require 'init-org)
+
+(setq org-roam-directory (file-truename "~/Knowledger"))
 
 ;; Programming Related Settings
 ;;

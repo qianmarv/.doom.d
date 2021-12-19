@@ -308,7 +308,7 @@
                 ("d" "Daily Review"  entry
                  (file+olp+datetree ,journal-book) (file ,(my-org/expand-template "daily_review")) :tree-type week :time-prompt t)
                 ("b" "Break / Interrupt" entry
-                 (file+headline ,capture-book "Other Interrupts") "* DONE %?\n%U %i\n" :clock-in t :clock-resume t)
+                 (file+headline ,agenda-book "Unplanned") "* DONE %?\n%U %i\n" :clock-in t :clock-resume t)
                 ("c" "Collect/Capture")
                 ("cn" "Take Notes" entry
                  (file+headline ,capture-book "Notes") "* %^{Note Title}\nNote taken on %U \\\\\n%?\n%K")
