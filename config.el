@@ -102,6 +102,7 @@
 (require 'init-org)
 
 (setq org-roam-directory (file-truename "~/Knowledger"))
+(org-roam-db-autosync-mode)
 
 ;; Programming Related Settings
 ;;
