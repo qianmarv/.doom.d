@@ -506,7 +506,6 @@
   :config
   (org-super-agenda-mode))
 
-;;(setq deft-directory "~/Org/roam")
 
 (provide 'init-org)
 ;;; init-org.el ends here

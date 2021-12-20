@@ -101,8 +101,8 @@
 ;; Org related configurations
 (require 'init-org)
 
-(setq org-roam-directory (file-truename "~/Knowledger"))
-(org-roam-db-autosync-mode)
+;; Org Roam
+(require 'init-org-roam)
 
 ;; Programming Related Settings
 ;;
