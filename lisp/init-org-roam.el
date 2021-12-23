@@ -1,9 +1,10 @@
 ;;; lisp/init-org-roam.el -*- lexical-binding: t; -*-
 
-(use-package org-roam
+
+(use-package! org-roam
   :ensure t
   :init
-  (setq org-roam-v2-ac t)
+  (setq org-roam-v2-ack t)
   :custom
   (setq org-roam-directory (file-truename "~/Knowledger"))
   (org-roam-completion-everywhere t)
@@ -13,3 +14,6 @@
          ("C-c r i" . org-roam-node-insert)
          :map org-mode-map
          ("C-M-i" . completion-at-point)))
+
+(provide 'init-org-roam)
+
