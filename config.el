@@ -68,11 +68,11 @@
 ;; `load-theme' function. These are the defaults.
 (setq doom-theme 'doom-one)
 
-(setq evil-default-state 'emacs)
+;;(setq evil-default-state 'emacs)
 
 ;;; :editor evil
-;; (setq evil-split-window-below t
-;;       evil-vsplit-window-right t)
+(setq evil-split-window-below t
+      evil-vsplit-window-right t)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -100,9 +100,6 @@
 
 ;; Org related configurations
 (require 'init-org)
-
-;; Org Roam
-(require 'init-org-roam)
 
 ;; Programming Related Settings
 ;;

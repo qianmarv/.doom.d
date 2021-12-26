@@ -73,17 +73,8 @@
 
   (with-eval-after-load 'org
     (progn
-      ;; (spacemacs|disable-company org-mode)
-      ;; (spacemacs/set-leader-keys-for-major-mode 'org-mode
-      ;;                                           "," 'org-priority
-      ;;                                           "ir" 'my-org/insert-src-block
-      ;;                                           "iq" 'my-org/insert-quote
-      ;;                                           "ip" 'my-org/insert-screenshot)
       (require 'org-compat)
-
       (require 'org)
-      ;; (add-to-list 'org-modules "org-habit")
-      ;; (add-to-list 'org-modules 'org-habit)
       (require 'org-habit)
 
       (auto-fill-mode)
@@ -183,14 +174,6 @@
 ;;         ))
       ;; ;; Config plantuml path
       (setq plantuml-default-exec-mode 'jar)
-      ;; (setq org-plantuml-jar-path
-      ;;       (expand-file-name "~/.emacs.d/plugins/plantuml.jar"))
-
-      ;; (setq plantuml-jar-path
-      ;;       (expand-file-name "~/.emacs.d/plugins/plantuml.jar"))
-      ;; ;; Config ditaa path
-      ;; (setq org-ditaa-jar-path
-      ;;       (expand-file-name "~/.emacs.d/plugins/ditaa0_9.jar")) ;
 
       ;; Setup for GTD
       ;; Refer to http://www.i3s.unice.fr/~malapert/org/tips/emacs_orgmode.html
@@ -506,6 +489,26 @@
   :config
   (org-super-agenda-mode))
 
+;; Org-roam setting
+(setq org-roam-directory (file-truename "~/Org/Roam"))
+(use-package! org-roam
+  :after org
+  :init
+  :config
+  (setq org-roam-db-node-include-function
+      (lambda ()
+        (not (member "ATTACH" (org-get-tags))))))
+  ;; :commands
+  ;; (org-roam-completion-everywhere t)
+  ;; (org-roam-db-autosync-mode))
+
+;; Deft
+;; (setq deft-directory "~/Org/Roam")
+;; (use-package! deft
+;;   :after org
+;;   :init
+;;   :config
+;;   (setq deft-recursive t))
 
 (provide 'init-org)
 ;;; init-org.el ends here
