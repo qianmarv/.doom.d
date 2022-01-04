@@ -191,7 +191,6 @@
               ("DELEGATED" . (:foreground "LimeGreen" :weight bold))
               ("SOMEDAY" . (:foreground "LimeGreen" :weight bold))
               ))
-
       ;; (setq org-tag-persistent-alist
       ;;       '((:startgroup . nil)
       ;;         ("G@2019_EfficientWork" . ?e)
@@ -270,7 +269,7 @@
         (custom-set-variables '(epg-gpg-program "C:/Program Files (x86)/GnuPG/bin/gpg")))
 
       (org-crypt-use-before-save-magic)
-      (setq org-tags-exclude-from-inheritance (quote ("crypt")))
+      (setq org-tags-exclude-from-inheritance (quote ("crypt" "P@story" "P@backlog")))
       ;; GPG key to use for encryption
       ;; Either the Key ID or set to nil to use symmetric encryption.
       ;; 

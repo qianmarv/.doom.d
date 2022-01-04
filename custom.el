@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(epg-gpg-program "/usr/local/bin/gpg")
  '(org-agenda-files
-   '("~/Org/GTD/Work.org" "~/Org/GTD/Projects.org" "~/Org/GTD/Event.org" "~/Org/GTD/Agenda.org"))
+   '("/Users/marvin/Org/GTD/P21-OCR.org" "/Users/marvin/Org/GTD/Agenda.org"))
  '(org-download-image-dir "./IMG" t)
  '(safe-local-variable-values
    '((eval setq-local org-roam-db-location
