@@ -191,7 +191,6 @@
               ("DELEGATED" . (:foreground "LimeGreen" :weight bold))
               ("SOMEDAY" . (:foreground "LimeGreen" :weight bold))
               ))
-
       ;; (setq org-tag-persistent-alist
       ;;       '((:startgroup . nil)
       ;;         ("G@2019_EfficientWork" . ?e)
