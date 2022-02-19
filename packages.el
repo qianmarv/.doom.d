@@ -29,6 +29,8 @@
 ;(package! builtin-package :recipe (:branch "develop"))
 
 
+(package! emacsql-sqlite3)
+(package! emacsql-libsqlite3)
 (package! org-super-agenda)
 (package! golden-ratio)
 ;;(package! leetcode)
