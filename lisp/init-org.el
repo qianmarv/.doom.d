@@ -150,28 +150,28 @@
       (setq org-export-with-sub-superscripts nil)
 
       ;; Active Org-babel languages
-;;      (org-babel-do-load-languages
-;;       'org-babel-load-languages
-;;       '(;; other Babel languages
-;;         ;; Config plantuml
-;;         ;; http://archive.3zso.com/archives/plantuml-quickstart.html
-;;         (plantuml . t)
-;;         (ditaa . t)
-;;         (python . t)
-;;         (perl . t)
-;;         (ruby . t)
-;;         (R . t)
-;;         (shell . t)
-;;         (gnuplot . t)
-;;         (org . t)
-;;         (latex . t)
-;;         (java . t)
-;;         (emacs-lisp . t)
-;;         ;; (racket . t)
-;;         (calc . t)
-;;         (sql . t)
-;;         (dot . t)
-;;         ))
+     (org-babel-do-load-languages
+      'org-babel-load-languages
+      '(;; other Babel languages
+        ;; Config plantuml
+        ;; http://archive.3zso.com/archives/plantuml-quickstart.html
+        (plantuml . t)
+        (ditaa . t)
+        (python . t)
+        (perl . t)
+        (ruby . t)
+        (R . t)
+        (shell . t)
+        (gnuplot . t)
+        (org . t)
+        (latex . t)
+        (java . t)
+        (emacs-lisp . t)
+        ;; (racket . t)
+        (calc . t)
+        (sql . t)
+        (dot . t)
+        ))
       ;; ;; Config plantuml path
       (setq plantuml-default-exec-mode 'jar)
 
@@ -286,9 +286,9 @@
         (setq org-capture-templates
               `(
                 ("j" "Journals, Morning Write" entry
-                 (file+olp+datetree ,journal-book) "* Morning Write\n%U\n%?" :tree-type week)
+                 (file+olp+datetree ,journal-book) "* Morning Write\n%U\n%?" :clock-in t :clock-resume t :tree-type week)
                 ("d" "Daily Review"  entry
-                 (file+olp+datetree ,journal-book) (file ,(my-org/expand-template "daily_review")) :tree-type week :time-prompt t)
+                 (file+olp+datetree ,journal-book) (file ,(my-org/expand-template "daily_review"))  :clock-in t :clock-resume t  :tree-type week :time-prompt t)
                 ("b" "Break / Interrupt" entry
                  (file+headline ,agenda-book "Unplanned") "* DONE %?\n%U %i\n" :clock-in t :clock-resume t)
                 ("c" "Collect/Capture")
@@ -462,6 +462,25 @@
 (define-key global-map (kbd "C-c j") 'org-capture)
 (define-key global-map (kbd "C-c l") 'org-store-link)
 
+;; (defun my/presentation-setup()
+;;     (setq text-scale-mode-amount 3)
+;;   (hide-mode-line-mode 1)
+;;   (org-display-inline-images)
+;;   (text-scale-mode 1))
+
+;; (defun my/presentation-end()
+;;   (hide-mode-line-mode 0)
+;;   (text-scale-mode 0))
+
+;; ;; Presentation
+;; (use-package! org-tree-slide
+;;   :hook ((org-tree-slide-play . my/presentation-setup)
+;;          (org-tree-slide-play . my/presentation-end))
+;;   :custom
+;;   (org-tree-slide-slide-in-effect t)
+;;   (org-tree-slide-header t)
+;;   (org-tree-slide-breadcrumbs " // " ))
+
 ;; Configuration for super agenda
 (use-package! org-super-agenda
   :after org-agenda
@@ -473,10 +492,11 @@
                  :time-grid t)
           ;; (:name "Current Focus "
           ;;        :todo "STARTED")
-          (:name "Scheduled Today"
-                 :scheduled today)
           (:name "Habits "
                  :habit t)
+
+          (:name "Scheduled Today"
+                 :scheduled today)
           (:name "Due today "
                  :deadline today)
           (:name "Overdue "
