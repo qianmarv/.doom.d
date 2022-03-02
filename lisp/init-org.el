@@ -462,49 +462,32 @@
 (define-key global-map (kbd "C-c j") 'org-capture)
 (define-key global-map (kbd "C-c l") 'org-store-link)
 
-;; (defun my/presentation-setup()
-;;     (setq text-scale-mode-amount 3)
-;;   (hide-mode-line-mode 1)
-;;   (org-display-inline-images)
-;;   (text-scale-mode 1))
-
-;; (defun my/presentation-end()
-;;   (hide-mode-line-mode 0)
-;;   (text-scale-mode 0))
-
-;; ;; Presentation
-;; (use-package! org-tree-slide
-;;   :hook ((org-tree-slide-play . my/presentation-setup)
-;;          (org-tree-slide-play . my/presentation-end))
-;;   :custom
-;;   (org-tree-slide-slide-in-effect t)
-;;   (org-tree-slide-header t)
-;;   (org-tree-slide-breadcrumbs " // " ))
-
 ;; Configuration for super agenda
 (use-package! org-super-agenda
   :after org-agenda
   :init
   (setq org-super-agenda-groups
-        '((:name "Log "
-                 :log t)
-          (:name "Schedule"
-                 :time-grid t)
-          ;; (:name "Current Focus "
-          ;;        :todo "STARTED")
-          (:name "Habits "
-                 :habit t)
-
-          (:name "Scheduled Today"
-                 :scheduled today)
+        '((:name "Clocked Today"
+           :log t)
+          (:name "Time Grid"
+           :time-grid t)
+          (:name "Current Focus "
+           :todo "STARTED")
+          (:name "Track Habits "
+           :habit t)
           (:name "Due today "
-                 :deadline today)
+           :deadline today)
+          (:name "Scheduled Today"
+           :scheduled today)
           (:name "Overdue "
-                 :deadline past)
+           :deadline past)
           (:name "Due soon "
-                 :deadline future)
+           :deadline future)
           (:name "Scheduled earlier "
-                 :scheduled past)))
+           :scheduled past)
+          (:name "Scheduled this week"
+           :scheduled future)
+          ))
   :config
   (org-super-agenda-mode))
 
@@ -516,11 +499,11 @@
   :init
   :config
   (setq org-roam-db-node-include-function
-      (lambda ()
-        (not (member "ATTACH" (org-get-tags))))))
-  ;; :commands
-  ;; (org-roam-completion-everywhere t)
-  ;; (org-roam-db-autosync-mode))
+        (lambda ()
+          (not (member "ATTACH" (org-get-tags))))))
+;; :commands
+;; (org-roam-completion-everywhere t)
+;; (org-roam-db-autosync-mode))
 
 ;; Deft
 ;; (setq deft-directory "~/Org/Roam")
