@@ -59,9 +59,9 @@
           doom-big-font (font-spec :family "Source Code Pro" :size 36))
     (dolist (charset '(kana han cjk-misc bopomofo))
       (set-fontset-font (frame-parameter nil 'font)
-                        charset (font-spec :family "Microsoft YaHei" :size 36)))))
+                        charset (font-spec :family "Microsoft YaHei" :size 36))))
+  (doom-big-font-mode))
 
-(doom-big-font-mode)
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -93,7 +93,7 @@
 ;; Org Related Settings
 ;; If you intend to use org, it is recommended you change this!
 
-(add-to-list 'load-path (expand-file-name "lisp" doom-private-dir))
+(add-to-list 'load-path (expand-file-name "./lisp" doom-private-dir))
 
 ;; Private Utilities
 (require 'init-util)
@@ -102,6 +102,8 @@
 (require 'init-org)
 
 ;; Programming Related Settings
+;;
+(require 'init-code)
 ;;
 ;; Set default scheme implementation program
 ;; (setq scheme-program-name "racket")

@@ -28,10 +28,8 @@
 ;; our package manager can't deal with; see raxod502/straight.el#279)
 ;(package! builtin-package :recipe (:branch "develop"))
 
-
-(package! emacsql-sqlite3)
-(package! emacsql-libsqlite3)
 (package! org-super-agenda)
 (package! golden-ratio)
+(package! omnisharp)
 ;;(package! leetcode)
-;;(package! geiser)
+(package! geiser)

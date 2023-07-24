@@ -286,7 +286,7 @@
         (setq org-capture-templates
               `(
                 ("j" "Journals, Morning Write" entry
-                 (file+olp+datetree ,journal-book) "* Morning Write\n%U\n%?" :clock-in t :clock-resume t :tree-type week)
+                 (file+olp+datetree ,journal-book) "* Morning Write\n%U\n%?" :tree-type week)
                 ("d" "Daily Review"  entry
                  (file+olp+datetree ,journal-book) (file ,(my-org/expand-template "daily_review"))  :clock-in t :clock-resume t  :tree-type week :time-prompt t)
                 ("b" "Break / Interrupt" entry
@@ -301,6 +301,8 @@
                 ("cm" "Movies want Watch" entry
                  (file+headline ,capture-book "Movies") (file ,(my-org/expand-template "movie")))
                 ("r" "Review")
+                ("rf" "Free Review"  entry
+                 (file+olp+datetree ,journal-book) "* %^{Review Title}\n Review at %U \n?" :tree-type week :time-prompt t)
                 ("rw" "Weekly Review"  entry
                  (file+olp+datetree ,journal-book) (file ,(my-org/expand-template "weekly_review")) :tree-type week :time-prompt t)
                 ("rm" "Monthly Review"  entry
@@ -328,9 +330,9 @@
                                        ))
       (add-hook 'org-clock-cancel-hook 'my-org/hide-org-clock-from-header-line)
 
-       (after! 'org-clock
-                   (define-key org-clock-mode-line-map [header-line mouse-2] 'org-clock-goto)
-                   (define-key org-clock-mode-line-map [header-line mouse-1] 'org-clock-menu))
+      (after! 'org-clock
+        (define-key org-clock-mode-line-map [header-line mouse-2] 'org-clock-goto)
+        (define-key org-clock-mode-line-map [header-line mouse-1] 'org-clock-menu))
 
       ;; (setq org-agenda-files  `(,my-org/gtd-path))
       (setq org-agenda-compact-blocks nil)
@@ -340,36 +342,7 @@
                 (lambda ()
                   (add-hook 'window-configuration-change-hook 'org-agenda-align-tags nil t)
                   ))
-      ;; --------------------------------------------------------------------
-      ;; Settings for Reminder - appt
-      ;; Refer to: https://emacs.stackexchange.com/questions/3844/good-methods-for-setting-up-alarms-audio-visual-triggered-by-org-mode-events
-      ;; --------------------------------------------------------------------
-
-      (setq org-show-notification-handler
-            (lambda (msg) (my-org/show-alarm nil nil msg)))
-
-
-      ;; (setq appt-disp-window-function 'my-org/show-alarm)
-      ;; (setq appt-message-warning-time 5) ; Show notification 5 minutes before event
-      ;; (setq appt-display-interval appt-message-warning-time) ; Disable multiple reminders
-      ;; (setq appt-display-mode-line nil)
-      ;; ;; Add Desktop Notification
-      ;; ;; Refer to https://gist.github.com/jstewart/7664823
-      ;; (add-hook 'org-pomodoro-finished-hook
-      ;;           (lambda ()
-      ;;             (my-org/show-alarm 0 0 "Pomodoro completed! - Time for a break.")))
-
-      ;; (add-hook 'org-pomodoro-break-finished-hook
-      ;;           (lambda ()
-      ;;             (my-org/show-alarm 0 0 "Pomodoro Short Break Finished - Ready for Another?")))
-
-      ;; (add-hook 'org-pomodoro-long-break-finished-hook
-      ;;           (lambda ()
-      ;;             (my-org/show-alarm 0 0 "Pomodoro Long Break Finished - Ready for Another?")))
-
-      ;; (add-hook 'org-pomodoro-killed-hook
-      ;;           (lambda ()
-      ;;             (my-org/show-alarm 0 0 "Pomodoro Killed - One does not simply kill a pomodoro!")))
+      ;;
       ;; Setup Publish
       (require 'ox-publish)
       ;; (setq org-publish-project-alist
@@ -463,33 +436,36 @@
 (define-key global-map (kbd "C-c l") 'org-store-link)
 
 ;; Configuration for super agenda
-(use-package! org-super-agenda
-  :after org-agenda
-  :init
-  (setq org-super-agenda-groups
-        '((:name "Clocked Today"
-           :log t)
-          (:name "Time Grid"
-           :time-grid t)
-          (:name "Current Focus "
-           :todo "STARTED")
-          (:name "Track Habits "
-           :habit t)
-          (:name "Due today "
-           :deadline today)
-          (:name "Scheduled Today"
-           :scheduled today)
-          (:name "Overdue "
-           :deadline past)
-          (:name "Due soon "
-           :deadline future)
-          (:name "Scheduled earlier "
-           :scheduled past)
-          (:name "Scheduled this week"
-           :scheduled future)
-          ))
-  :config
-  (org-super-agenda-mode))
+
+;; (use-package! org-super-agenda
+;;   :after org-agenda
+;;   :init
+;;   (setq org-super-agenda-groups
+;;         '((:name "Clocked Today"
+;;            :log t)
+;;           (:name "Time Grid"
+;;            :time-grid t)
+;;           (:name "Current Focus "
+;;            :todo "STARTED")
+;;           (:name "Track Habits "
+;;            :habit t)
+;;           (:name "Due today "
+;;            :deadline today)
+;;           (:name "Scheduled Today"
+;;            :scheduled today)
+;;           (:name "Overdue "
+;;            :deadline past)
+;;           (:name "Due soon "
+;;            :deadline future)
+;;           (:name "Scheduled earlier "
+;;            :scheduled past)
+;;           (:name "Scheduled this week"
+;;            :scheduled future)
+;;           ))
+;;   :config
+;;   (org-super-agenda-mode))
+
+;; (setq org-ellipsis "⤵")
 
 ;; Org-roam setting
 (setq org-roam-database-connector 'sqlite3)
