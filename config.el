@@ -53,7 +53,8 @@
 
 ;; Set Chinese Font
 ;; https://emacs.stackexchange.com/questions/63850/doom-emacs-how-to-align-chinese-characters-in-org-tables
-(when (string-equal system-type "windows-nt")
+(when (and (string-equal system-type "windows-nt")
+           (display-graphic-p))
   (progn
     (setq doom-font (font-spec :family "Source Code Pro" :size 24 :weight 'normal :width 'normal)
           doom-big-font (font-spec :family "Source Code Pro" :size 36))

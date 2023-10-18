@@ -468,7 +468,7 @@
 ;; (setq org-ellipsis "⤵")
 
 ;; Org-roam setting
-(setq org-roam-database-connector 'sqlite3)
+;;(setq org-roam-database-connector 'sqlite3)
 (setq org-roam-directory (file-truename "~/Org/Roam"))
 (use-package! org-roam
   :after org
