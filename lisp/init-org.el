@@ -5,12 +5,7 @@
 
 (setq org-directory "~/Org/")
 
-;;; Show the clocked-in task - if any - in the header line
-(defun my-org/show-org-clock-in-header-line ()
-  (setq-default header-line-format '((" " org-mode-line-string " "))))
-
-(defun my-org/hide-org-clock-from-header-line ()
-  (setq-default header-line-format nil))
+(setq org-clock-clocked-in-display 'frame-title)
 
 (defun my-org/verify-refile-target ()
   "Exclude todo keywords with a done state from refile targets."
@@ -37,24 +32,6 @@
 
 ;; org-download already sufficient
 (setq-default org-download-image-dir "./IMG")
-
-(defun my-org/show-alarm (min-to-app new-time message)
-  (cond 
-   ((my/is-win) (call-process "powershell"
-                                  nil
-                                  nil
-                                  nil
-                                  (format " New-BurntToastNotification -Text \"%s\" -Sound 'Alarm2' -SnoozeAndDismiss" message)))
-   ((my/is-wsl) (call-process "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"
-                                  nil
-                                  nil
-                                  nil
-                                  (format " New-BurntToastNotification -Text \"%s\" -Sound 'Alarm2' -SnoozeAndDismiss" message)))
-   ((my/is-linux) (call-process "notify-send"
-                                    nil
-                                    nil
-                                    nil
-                                    (format "Emacs Alarm: '%s'" message)))))
 
 (setq my-org/gtd-directory "~/Org/GTD")
 
@@ -308,33 +285,6 @@
                 ("rm" "Monthly Review"  entry
                  (file+olp+datetree ,journal-book) (file ,(my-org/expand-template "monthly_review")) :tree-type week :time-prompt t))))
 
-
-      ;; TODO Group hook functions together
-      (add-hook 'org-clock-in-hook '(lambda ()
-                                      (let ((curr-state (org-get-todo-state)))
-                                        ;; (when (string= curr-state "DONE")
-                                        ;;   (org-priority 'remove))
-                                        (when (not (string= curr-state "DONE"))
-                                          (org-todo "STARTED"))
-                                        (my-org/show-org-clock-in-header-line))))
-      
-      ;;TODO Only Change STATE when currently state is not in Finish State
-      ;; (org-get-todo-state)
-      (add-hook 'org-clock-out-hook '(lambda ()
-                                       (let ((curr-state (org-get-todo-state)))
-                                         ;; (when (string= curr-state "DONE")
-                                         ;;   (org-priority 'remove))
-                                         (when (string= curr-state "STARTED")
-                                           (org-todo "TODO")))
-                                       (my-org/hide-org-clock-from-header-line)
-                                       ))
-      (add-hook 'org-clock-cancel-hook 'my-org/hide-org-clock-from-header-line)
-
-      (after! 'org-clock
-        (define-key org-clock-mode-line-map [header-line mouse-2] 'org-clock-goto)
-        (define-key org-clock-mode-line-map [header-line mouse-1] 'org-clock-menu))
-
-      ;; (setq org-agenda-files  `(,my-org/gtd-path))
       (setq org-agenda-compact-blocks nil)
       ;;      (spacemacs/set-leader-keys "'" 'my-org/insert-screenshot)
       ;; Re-align tags when window shape changes
@@ -345,82 +295,6 @@
       ;;
       ;; Setup Publish
       (require 'ox-publish)
-      ;; (setq org-publish-project-alist
-      ;;       `(
-      ;;         ;; Project Settings for Blog
-      ;;         ;; ("Blog-Note"
-      ;;         ;;  :base-directory "~/Org/Blog/"
-      ;;         ;;  :recursive t
-      ;;         ;;  :publishing-directory "~/Git/blog/source/_posts/"
-      ;;         ;;  :publishing-function org-md-publish-to-md)
-      ;;         ;; ("Blog-Static"
-      ;;         ;;  :base-directory "~/Org/Blog/"
-      ;;         ;;  :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-      ;;         ;;  :publishing-directory "~/Git/blog/source/_posts/"
-      ;;         ;;  :recursive t
-      ;;         ;;  :publishing-function org-publish-attachment)
-      ;;         ;; ("Blog" :components ("Blog-Note" "Blog-Static"))
-
-      ;;         ;; Project Setting for Project - Total Validation
-      ;;         ("TotalValidation-html"
-      ;;          :base-directory "~/Org/Project/CCONSSHA02/TotalValidation"
-      ;;          :recursive t
-      ;;          :with-properties t
-      ;;          :publishing-directory "~/Git/TotalValidation/docs"
-      ;;          :publishing-function org-html-publish-to-html)
-      ;;         ("TotalValidation-Static"
-      ;;          :base-directory "~/Org/Project/CCONSSHA02/TotalValidation/IMG"
-      ;;          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-      ;;          :publishing-directory "~/Git/TotalValidation/docs/IMG"
-      ;;          :recursive t
-      ;;          :publishing-function org-publish-attachment)
-      ;;         ("TotalValidation-Org"
-      ;;          :base-directory "~/Org/Project/CCONSSHA02/TotalValidation/"
-      ;;          :base-extension "org"
-      ;;          :publishing-directory "~/Git/TotalValidation/source/"
-      ;;          :recursive t
-      ;;          :publishing-function org-org-publish-to-org)
-      ;;         ("TotalValidation" :components ("TotalValidation-html" "TotalValidation-Static" "TotalValidation-Org"))
-      ;;         ;; Project Settings for Project - Inter Company
-      ;;         ("InterCompanyHub-html"
-      ;;          :base-directory "~/Org/Project/CCONSSHA02/InterCompanyHub"
-      ;;          :recursive t
-      ;;          :with-properties t
-      ;;          :publishing-directory "~/Git/InterCompanyHub/docs"
-      ;;          :publishing-function org-html-publish-to-html)
-      ;;         ("InterCompanyHub-Static"
-      ;;          :base-directory "~/Org/Project/CCONSSHA02/InterCompanyHub/IMG"
-      ;;          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-      ;;          :publishing-directory "~/Git/InterCompanyHub/docs/IMG"
-      ;;          :recursive t
-      ;;          :publishing-function org-publish-attachment)
-      ;;         ("InterCompanyHub-Org"
-      ;;          :base-directory "~/Org/Project/CCONSSHA02/InterCompanyHub/"
-      ;;          :base-extension "org"
-      ;;          :publishing-directory "~/Git/InterCompanyHub/source/"
-      ;;          :recursive t
-      ;;          :publishing-function org-org-publish-to-org)
-      ;;         ("InterCompanyHub" :components ("InterCompanyHub-html" "InterCompanyHub-Static" "InterCompanyHub-Org"))
-      ;;         ("2002CE-SUBVAL-Org"
-      ;;          :base-directory "~/Org/Project/CCONSSHA02/2002CE_SUBVAL"
-      ;;          :recursive t
-      ;;          :with-properties t
-      ;;          :publishing-directory "~/Git/2002CE_SubVal"
-      ;;          :publishing-function org-html-publish-to-html)
-      ;;         ("2002CE-SUBVAL-Static"
-      ;;          :base-directory "~/Org/Project/CCONSSHA02/2002CE_SUBVAL/IMG"
-      ;;          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-      ;;          :publishing-directory "~/Git/2002CE_SubVal/IMG"
-      ;;          :recursive t
-      ;;          :publishing-function org-publish-attachment)
-      ;;         ("2002CE-SUBVAL" :components ("2002CE-SUBVAL-Org" "2002CE-SUBVAL-Static"))
-      ;;         ))
-
-      ;; Publish with
-      ;; (org-publish-current-project) ;; While having a file in your project open
-      ;; OR
-      ;; M-x org-publish <RET> project-name <RET>
-
       (setq org-pandoc-options-for-latex-pdf '((pdf-engine . "xelatex")))
 
       (setq org-agenda-include-diary t
@@ -468,7 +342,6 @@
 ;; (setq org-ellipsis "⤵")
 
 ;; Org-roam setting
-;;(setq org-roam-database-connector 'sqlite3)
 (setq org-roam-directory (file-truename "~/Org/Roam"))
 (use-package! org-roam
   :after org
