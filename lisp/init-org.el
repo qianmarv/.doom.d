@@ -35,6 +35,9 @@
 
 (setq my-org/gtd-directory "~/Org/GTD")
 
+;; Exclude diary
+(setq org-agenda-include-diary nil)
+
 (defmacro my-org/expand-template (name)
   "Expand template NAME to full path."
   (concat my-org/gtd-directory "/templates/" name ".tpl"))
@@ -168,39 +171,6 @@
               ("DELEGATED" . (:foreground "LimeGreen" :weight bold))
               ("SOMEDAY" . (:foreground "LimeGreen" :weight bold))
               ))
-      ;; (setq org-tag-persistent-alist
-      ;;       '((:startgroup . nil)
-      ;;         ("G@2019_EfficientWork" . ?e)
-      ;;         ("G@2019_DevExpert" . ?d)
-      ;;         ("G@2019_BizExpert" . ?b)
-      ;;         (:endgroup . nil)
-      ;;         ;; (:startgroup . nil)
-      ;;         ;; ("EASY" . ?e)
-      ;;         ;; ("MEDIUM" . ?m)
-      ;;         ;; ("HARD" . ?a)
-      ;;         ;; (:endgroup . nil)
-      ;;         ;; ("URGENT" . ?u)
-      ;;         ;; ("KEY" . ?k)
-      ;;         ;; ("BONUS" . ?b)
-      ;;         )
-      ;;       )
-
-      ;; (setq org-tag-faces
-      ;;       '(
-      ;;         ("G@2019_EfficientWork" . (:foreground "GoldenRod" :weight bold))
-      ;;         ("G@2019_DevExpert" . (:foreground "GoldenRod" :weight bold))
-      ;;         ("G@2019_BizExpert" . (:foreground "GoldenRod" :weight bold))
-      ;;         ("G@2019_MSE2020" . (:foreground "Red" :weight bold))
-      ;;         ("G@2019_SelfMastery" . (:foreground "Red" :weight bold))
-      ;;         ("@2019_Emacsen" . (:foreground "Red" :weight bold))
-      ;;         ("@2019_Health" . (:foreground "OrangeRed" :weight bold))
-      ;;         ("G@2019_Education" . (:foreground "OrangeRed" :weight bold))
-      ;;         ("G@2019_Trip" . (:foreground "OrangeRed" :weight bold))
-      ;;         ("G@2019_Decorate" . (:foreground "OrangeRed" :weight bold))
-      ;;         ;; ("BONUS" . (:foreground "GoldenRod" :weight bold))
-      ;;         )
-      ;;       )
-
 
 ;;; Refiling
 
@@ -267,7 +237,7 @@
                 ("d" "Daily Review"  entry
                  (file+olp+datetree ,journal-book) (file ,(my-org/expand-template "daily_review"))  :clock-in t :clock-resume t  :tree-type week :time-prompt t)
                 ("b" "Break / Interrupt" entry
-                 (file+headline ,agenda-book "Unplanned") "* DONE %?\n%U %i\n" :clock-in t :clock-resume t)
+                 (file+headline ,agenda-book "Unplanned") "* %?\n%U %i\n" :clock-in t :clock-resume t)
                 ("c" "Collect/Capture")
                 ("cn" "Take Notes" entry
                  (file+headline ,capture-book "Notes") "* %^{Note Title}\nNote taken on %U \\\\\n%?\n%K")
@@ -350,6 +320,13 @@
   (setq org-roam-db-node-include-function
         (lambda ()
           (not (member "ATTACH" (org-get-tags))))))
+
+(setq org-export-html-style-include-scripts nil
+       org-export-html-style-include-default nil)
+ (setq org-export-html-style
+   "<link rel=\"stylesheet\" type=\"text/css\" href=\"solarized-light.css\" />")
+;;
+;;
 ;; :commands
 ;; (org-roam-completion-everywhere t)
 ;; (org-roam-db-autosync-mode))
