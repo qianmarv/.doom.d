@@ -57,11 +57,11 @@
 (when (and (string-equal system-type "windows-nt")
            (display-graphic-p))
   (progn
-    (setq doom-font (font-spec :family "WenQuanYi Micro Hei Mono" :size 24 :weight 'normal :width 'normal)
-          doom-big-font (font-spec :family "WenQuanYi Micro Hei Mono" :size 36))
+    (setq doom-font (font-spec :family "Microsoft YaHei" :size 24 :weight 'normal :width 'normal)
+          doom-big-font (font-spec :family "Microsoft YaHei" :size 36))
     ;; (dolist (charset '(kana han cjk-misc bopomofo))
     ;;   (set-fontset-font (frame-parameter nil 'font)
-    ;;                     charset (font-spec :family "WenQuanYi Micro Hei Mono" :size 36)))
+    ;;                     charset (font-spec :family "Microsoft YaHei" :size 36)))
     )
   (doom-big-font-mode))
 
