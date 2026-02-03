@@ -29,8 +29,8 @@
 ;(package! builtin-package :recipe (:branch "develop"))
 
 (package! org-super-agenda)
-(package! golden-ratio)
-(package! omnisharp)
+;;(package! golden-ratio)  ; 未使用，已禁用
+;;(package! omnisharp)     ; C# 支持未启用，已禁用
 ;;(package! leetcode)
 (package! geiser)
 (package! ob-mermaid

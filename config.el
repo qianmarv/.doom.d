@@ -59,9 +59,10 @@
   (progn
     (setq doom-font (font-spec :family "Fira Code" :size 24 :weight 'normal :width 'normal)
           doom-big-font (font-spec :family "Fira Code" :size 36))
+     ;; 中文字体大小调整为 24，与英文字体保持一致
      (dolist (charset '(kana han cjk-misc bopomofo))
        (set-fontset-font (frame-parameter nil 'font)
-                         charset (font-spec :family "Microsoft YaHei" :size 36)))
+                         charset (font-spec :family "Microsoft YaHei" :size 24)))
     )
   (doom-big-font-mode))
 
@@ -139,12 +140,11 @@
 (use-package! copilot
   :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)
-              ("C-n" . 'copilot-next-completion)
-              ("C-p" . 'copilot-previous-completion))
+              ;; 使用 C-] 接受补全，避免与 TAB 冲突
+              ("C-]" . 'copilot-accept-completion)
+              ("C-}" . 'copilot-accept-completion-by-word)
+              ("M-]" . 'copilot-next-completion)
+              ("M-[" . 'copilot-previous-completion))
   :config
   ;; Setup Copilot indentation offset warning disable
   (setq copilot-indent-offset-warning-disable t))

@@ -249,9 +249,9 @@
                  (file+headline ,capture-book "Books") (file ,(my-org/expand-template "book")))
                 ("cp" "Purchase log" entry
                  (file+olp+datetree ,capture-book "Purchase") "* %U \n%?" :tree-type week)
-                ("cp" "Physical exercise log" entry
+                ("ce" "Physical exercise log" entry
                  (file+olp+datetree ,capture-book "Exercise") "* %U \n%?" :tree-type week)
-                ("cp" "Investment log" entry
+                ("cv" "Investment log" entry
                  (file+olp+datetree ,capture-book "Investment") "* %U \n%?" :tree-type week)
                 ("cm" "Movies want Watch" entry
                  (file+headline ,capture-book "Movies") (file ,(my-org/expand-template "movie")))
@@ -289,33 +289,33 @@
 
 ;; Configuration for super agenda
 
-;; (use-package! org-super-agenda
-;;   :after org-agenda
-;;   :init
-;;   (setq org-super-agenda-groups
-;;         '((:name "Clocked Today"
-;;            :log t)
-;;           (:name "Time Grid"
-;;            :time-grid t)
-;;           (:name "Current Focus "
-;;            :todo "STARTED")
-;;           (:name "Track Habits "
-;;            :habit t)
-;;           (:name "Due today "
-;;            :deadline today)
-;;           (:name "Scheduled Today"
-;;            :scheduled today)
-;;           (:name "Overdue "
-;;            :deadline past)
-;;           (:name "Due soon "
-;;            :deadline future)
-;;           (:name "Scheduled earlier "
-;;            :scheduled past)
-;;           (:name "Scheduled this week"
-;;            :scheduled future)
-;;           ))
-;;   :config
-;;   (org-super-agenda-mode))
+(use-package! org-super-agenda
+  :after org-agenda
+  :init
+  (setq org-super-agenda-groups
+        '((:name "Clocked Today"
+           :log t)
+          (:name "Time Grid"
+           :time-grid t)
+          (:name "Current Focus "
+           :todo "STARTED")
+          (:name "Track Habits "
+           :habit t)
+          (:name "Due today "
+           :deadline today)
+          (:name "Scheduled Today"
+           :scheduled today)
+          (:name "Overdue "
+           :deadline past)
+          (:name "Due soon "
+           :deadline future)
+          (:name "Scheduled earlier "
+           :scheduled past)
+          (:name "Scheduled this week"
+           :scheduled future)
+          ))
+  :config
+  (org-super-agenda-mode))
 
 ;; (setq org-ellipsis "⤵")
 
