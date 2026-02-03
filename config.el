@@ -57,11 +57,11 @@
 (when (and (string-equal system-type "windows-nt")
            (display-graphic-p))
   (progn
-    (setq doom-font (font-spec :family "Microsoft YaHei" :size 24 :weight 'normal :width 'normal)
-          doom-big-font (font-spec :family "Microsoft YaHei" :size 36))
-    ;; (dolist (charset '(kana han cjk-misc bopomofo))
-    ;;   (set-fontset-font (frame-parameter nil 'font)
-    ;;                     charset (font-spec :family "Microsoft YaHei" :size 36)))
+    (setq doom-font (font-spec :family "Fira Code" :size 24 :weight 'normal :width 'normal)
+          doom-big-font (font-spec :family "Fira Code" :size 36))
+     (dolist (charset '(kana han cjk-misc bopomofo))
+       (set-fontset-font (frame-parameter nil 'font)
+                         charset (font-spec :family "Microsoft YaHei" :size 36)))
     )
   (doom-big-font-mode))
 
@@ -107,7 +107,7 @@
 ;; Programming Related Settings
 ;;
 (require 'init-code)
-;;
+
 ;; Set default scheme implementation program
 ;; (setq scheme-program-name "racket")
 ;; (setq geiser-scheme-implementation "racke")
@@ -134,3 +134,18 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;;; GitHub Copilot 配置
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)
+              ("C-n" . 'copilot-next-completion)
+              ("C-p" . 'copilot-previous-completion))
+  :config
+  ;; Setup Copilot indentation offset warning disable
+  (setq copilot-indent-offset-warning-disable t))
+

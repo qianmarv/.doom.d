@@ -20,5 +20,6 @@
 (defun my/is-mac()
   (string-equal system-type "darwin"))
 
+(setq find-program "\"C:\\Program Files\\Git\\usr\\bin\\find.exe\"")
 (provide 'init-util)
 ;;; init-util.el ends here

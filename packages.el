@@ -33,3 +33,12 @@
 (package! omnisharp)
 ;;(package! leetcode)
 (package! geiser)
+(package! ob-mermaid
+  :recipe (:host github :repo "arnm/ob-mermaid"))
+
+(package! oauth
+  :recipe (:host github :repo "psanford/emacs-oauth"))
+
+;; GitHub Copilot
+(package! copilot
+  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))

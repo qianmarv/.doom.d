@@ -5,11 +5,14 @@
  ;; If there is more than one, they won't work right.
  '(epg-gpg-program "C:/Program Files (x86)/GnuPG/bin/gpg")
  '(org-agenda-files
-   '("c:/Users/marvinqian/Org/GTD/Project.org" "c:/Users/marvinqian/Org/GTD/Habit.org" "c:/Users/marvinqian/Org/GTD/Work.org" "c:/Users/marvinqian/Org/GTD/Agenda.org"))
+   '("~/Org/GTD/Event.org" "c:/Users/marvinqian/Org/GTD/Project.org"
+     "c:/Users/marvinqian/Org/GTD/Habit.org"
+     "c:/Users/marvinqian/Org/GTD/Work.org"
+     "c:/Users/marvinqian/Org/GTD/Agenda.org"))
  '(org-download-image-dir "./IMG" t)
+ '(package-selected-packages '(request))
  '(safe-local-variable-values
-   '((eval setq-local org-roam-directory
-      (expand-file-name "./"))
+   '((eval setq-local org-roam-directory (expand-file-name "./"))
      (eval setq-local org-roam-db-location
       (expand-file-name "org-roam.db" org-roam-directory))
      (eval setq-local org-roam-directory

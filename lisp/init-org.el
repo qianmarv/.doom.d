@@ -59,6 +59,7 @@
 
       (auto-fill-mode)
       (visual-line-mode)
+      (setq org-indent-model t)
 
       ;; Enable publish taskjuggler
       ;; https://orgmode.org/worg/exporters/taskjuggler/ox-taskjuggler.html
@@ -151,6 +152,7 @@
         (calc . t)
         (sql . t)
         (dot . t)
+        (mermaid . t)
         ))
       ;; ;; Config plantuml path
       (setq plantuml-default-exec-mode 'jar)
@@ -245,6 +247,12 @@
                  (file+headline ,capture-book "Ideas")  "* TODO %?\n %i\n")
                 ("cb" "Books want Read" entry
                  (file+headline ,capture-book "Books") (file ,(my-org/expand-template "book")))
+                ("cp" "Purchase log" entry
+                 (file+olp+datetree ,capture-book "Purchase") "* %U \n%?" :tree-type week)
+                ("cp" "Physical exercise log" entry
+                 (file+olp+datetree ,capture-book "Exercise") "* %U \n%?" :tree-type week)
+                ("cp" "Investment log" entry
+                 (file+olp+datetree ,capture-book "Investment") "* %U \n%?" :tree-type week)
                 ("cm" "Movies want Watch" entry
                  (file+headline ,capture-book "Movies") (file ,(my-org/expand-template "movie")))
                 ("r" "Review")
@@ -310,6 +318,11 @@
 ;;   (org-super-agenda-mode))
 
 ;; (setq org-ellipsis "⤵")
+
+(use-package! ob-mermaid
+  :after org
+  :config
+  (setq ob-mermaid-cli-path "c:/Users/marvinqian/AppData/Roaming/npm/mmdc"))
 
 ;; Org-roam setting
 (setq org-roam-directory (file-truename "~/Org/Roam"))
